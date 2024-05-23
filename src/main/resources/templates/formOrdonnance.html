@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index.html">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire Ordonnance</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">Ajouter/Modifier une Ordonnance</div>
+      <div class="card-body">
+        <form th:action="@{/saveOrdonnance}" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id" th:value="${ordonnance.id}">
+          <div class="mb-2">
+            <label class="form-label">PDF</label>
+            <input type="file" name="pdfFile" class="form-control">
+            <label for="consultationId">Consultation ID</label>
+            <input type="text" id="consultationId" name="consultationId" class="form-control"
+                   th:value="${ordonnance.consultation != null ? ordonnance.consultation.id : ''}">
+          </div>
+          <button class="btn btn-dark">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

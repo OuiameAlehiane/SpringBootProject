@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index.html">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Ordonnances</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="p-2">
+        <div class="card">
+            <div class="card-header">Liste des Ordonnances</div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Consultation</th>
+                        <th>PDF</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ordonnance : ${ordonnanceList}">
+                        <td th:text="${ordonnance.id}"></td>
+                        <td th:if="${ordonnance.consultation != null}" th:text="${ordonnance.consultation.id}"></td>
+                        <td th:unless="${ordonnance.consultation != null}">No consultation</td>
+                        <td>
+                            <a th:href="@{'http://localhost:8066/viewPdf?ordonnanceId=' + ${ordonnance.id}}" target="_blank">View PDF</a>
+                        </td>
+
+                        <td>
+                            <a th:href="@{/editOrdonnance(id=${ordonnance.id})}" class="btn btn-primary">Edit</a>
+                            <a th:href="@{/deleteOrdonnance(id=${ordonnance.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

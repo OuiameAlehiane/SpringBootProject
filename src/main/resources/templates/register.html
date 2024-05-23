@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="UTF-8">
+  <title>medAPP - Inscription</title>
+  <link rel="stylesheet" href="webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+  <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+  <script src="webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+  <style>
+    body {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      background-color: #f8f9fa; /* Couleur de fond de la page */
+    }
+
+    .container {
+      width: 100% !important;
+      max-width: 600px !important;
+      padding: 20px 30px !important; /* Ajoute un peu de marge intérieure */
+      background-color: #fff; /* Couleur de fond du conteneur */
+      border-radius: 10px; /* Ajoute un peu de coins arrondis */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère */
+    }
+
+    .custom-header {
+      text-align: center !important;
+      font-weight: bold !important;
+      background-color: rgba(0, 0, 0, 0.5) !important; /* Couleur de fond du titre */
+      color: white !important;
+      border-top-left-radius: 10px !important;
+      border-top-right-radius: 10px !important;
+      padding: 15px !important;
+      margin-bottom: 20px; /* Ajoute un peu d'espace en bas du titre */
+    }
+
+    .error-message {
+      color: red !important;
+      font-weight: bold !important;
+      text-align: center !important;
+      margin-top: 15px; /* Ajoute un peu d'espace au-dessus du message d'erreur */
+    }
+
+    .form-label {
+      font-weight: bold; /* Rend les libellés du formulaire en gras */
+    }
+
+    .btn-primary {
+      width: 100%; /* Bouton de largeur totale */
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $('#register-form').submit(function(event) {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var email = $('#email').val();
+        if (username === '' || password === '' || email === '') {
+          event.preventDefault(); // Empêche l'envoi du formulaire
+          $('.error-message').text('Veuillez remplir tous les champs');
+        }
+      });
+    });
+  </script>
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8"> <!-- Augmentez la taille de la colonne pour une meilleure apparence -->
+      <div class="card">
+        <div class="card-header custom-header">Inscription</div>
+        <div class="card-body">
+          <form id="register-form" method="post" th:action="@{/register}">
+            <div class="mb-3">
+              <label for="username" class="form-label">Nom d'utilisateur :</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Mot de passe :</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email :</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="error-message"></div>
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

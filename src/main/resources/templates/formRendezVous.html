@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index.html">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Nouveau Rendez-vous</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">Ajouter un nouveau rendez-vous</div>
+      <div class="card-body">
+        <form th:action="@{/saveRendezVous}" method="post">
+          <input type="hidden" name="id" th:value="${rendezVous.id}">
+          <div class="mb-2">
+            <label class="form-label">Date</label>
+            <input type="date" name="date" class="form-control" th:value="${rendezVous.date}"
+                   min="[[${#dates.format(#dates.createNow(),'yyyy-MM-dd')}]]">
+
+            <label class="form-label">Médecin</label>
+            <select name="medcins" class="form-control">
+              <option value="">-- Sélectionner un médecin --</option>
+              <option th:each="medcin : ${medcinList}"
+                      th:value="${medcin.id}"
+                      th:text="${medcin.nom}"
+                      th:selected="${rendezVous.medcins != null and medcin.id == rendezVous.medcins.id}"></option>
+            </select>
+
+            <label class="form-label">Patient</label>
+            <div class="input-group">
+              <input type="text" id="searchPatient" class="form-control"
+                     placeholder="Rechercher un patient...">
+              <button type="button" id="selectPatientButton" class="btn btn-primary">Sélectionner</button>
+            </div>
+            <select name="patients" class="form-control" id="patientList">
+              <option value="">-- Sélectionner un patient --</option>
+              <option th:each="patient : ${patientList}"
+                      th:value="${patient.id}"
+                      th:text="${patient.nom}"></option>
+            </select>
+
+            <button class="btn btn-dark">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  document.addEventListener("DOMContentLoaded", function () {
+    var input = document.getElementById('searchPatient');
+    var select = document.getElementById('patientList');
+    var options = select.getElementsByTagName('option');
+
+    function resetPatientList() {
+      for (var i = 0; i < options.length; i++) {
+        options[i].style.display = 'block'; // Show all options
+      }
+    }
+
+    input.addEventListener('input', function () {
+      var searchValue = this.value.trim().toLowerCase();
+
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+        var optionText = option.text.trim().toLowerCase();
+        if (optionText.includes(searchValue)) {
+          option.style.display = 'block'; // Show the option
+        } else {
+          option.style.display = 'none'; // Hide the option
+        }
+      }
+    });
+
+    var selectButton = document.getElementById('selectPatientButton');
+    selectButton.addEventListener('click', function () {
+      var selectedOption = select.querySelector('option:checked');
+      if (selectedOption) {
+        alert('Patient sélectionné : ' + selectedOption.text);
+        // Vous pouvez faire quelque chose avec le patient sélectionné ici
+        resetPatientList(); // Réinitialiser la liste des patients
+      } else {
+        alert('Aucun patient sélectionné');
+      }
+    });
+  });
+  /*]]>*/
+</script>
+
+</body>
+
+</html>
